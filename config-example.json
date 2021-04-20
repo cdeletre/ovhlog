@@ -1,0 +1,7 @@
+{
+  "cluster":"cluster123",
+  "vhost":"abcdefgh",
+  "user":"username",
+  "password":"yourpassword",
+  "refresh":"300"
+}
