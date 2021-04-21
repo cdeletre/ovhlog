@@ -50,6 +50,7 @@ class OVHlog:
     self._etag = ''                     # last etag of the downloaded logs
     self._offset = 0                    # last offset of the downloaded logs (used to download only new data on each refresh)
     self._ddmmyyyy = ''                 # current date of the log
+    self._yyyymmdd = ''                 # current date for logfile name
     self._logfile_dir = logfile_dir     # directory place to write log files (Path type)
     self._logfile = None                # logfile to write downloaded logs (File type)
     self._printlog_enable= False        # printing of log to stdout
@@ -139,7 +140,7 @@ class OVHlog:
       self._logfile.close()
 
     if filepath is None:
-      filepath = self._logfile_dir / '{}-{}.log'.format(self._vhost, self._ddmmyyyy)
+      filepath = self._logfile_dir / '{}-{}.log'.format(self._vhost, self._yyyymmdd)
 
     if filepath.exists():
       self._offset = filepath.stat().st_size
@@ -225,9 +226,8 @@ class OVHlog:
       self._offset = 0
       self._etag = ''
       self._ddmmyyyy = new_ddmmyyyy
+      self._yyyymmdd = now_delay.strftime("%Y-%m-%d")
       self.set_logfile()
-    else:
-      self._ddmmyyyy = new_ddmmyyyy
     
   def update(self):
     """
