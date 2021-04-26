@@ -305,7 +305,11 @@ def main(args):
   if args.silent:
     ovhlog.set_printerr(False)  # disable printing error
 
-  ovhlog.start_update()         # start the update loop
+  if args.oneshot:
+    ovhlog.update()             # update one time
+    exit(0)
+  else:
+    ovhlog.start_update()       # start the update loop
 
   # run until a signal is caught (eg. CTRL+C)
   signal.pause() 
@@ -323,6 +327,7 @@ if __name__ == '__main__':
   parser.add_argument('--verbose','-v',help='enable verbose printing to stderr',action='store_true')
   parser.add_argument('--printlog','-p',help='enable printing logs to stdout',action='store_true')
   parser.add_argument('--silent','-s',help='disable printing error to stderr',action='store_true')
+  parser.add_argument('--oneshot','-o',help='only run one time',action='store_true')
 
   if len(sys.argv) == 1:
     parser.print_help(sys.stderr)
